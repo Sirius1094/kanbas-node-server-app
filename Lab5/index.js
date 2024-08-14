@@ -105,20 +105,6 @@ export default function Lab5(app) {
     todos.push(newTodo);
     res.json(newTodo);
   });
-
-  app.post("/a5/todos/:id/completed/:completed", (req, res) => {
-    const { id, completed } = req.params;
-    const todo = todos.find((t) => t.id === parseInt(id));
-    todo.completed = completed === "true";
-    res.json(todo);
-  });
-
-  app.post("/a5/todos/:id/description/:description", (req, res) => {
-    const { id, description } = req.params;
-    const todo = todos.find((t) => t.id === parseInt(id));
-    todo.description = description;
-    res.json(todo);
-  });
   
   app.get("/a5/todos/:id/delete", (req, res) => {
     const { id } = req.params;
@@ -136,10 +122,35 @@ export default function Lab5(app) {
     todos.splice(todoIndex, 1);
     res.sendStatus(200);
   });
+
+  app.get("/a5/todos/:id/completed/:completed", (req, res) => {
+    const { id, completed } = req.params;
+    const todo = todos.find((t) => t.id === parseInt(id));
+    if (todo) {
+      todo.completed = completed === 'true';
+      res.json(todos);
+    } else {
+      res.status(404).send("Todo not found");
+    }
+  });
+
+  app.get("/a5/todos/:id/description/:description", (req, res) => {
+    const { id, description } = req.params;
+    const todo = todos.find((t) => t.id === parseInt(id));
+    if (todo) {
+      todo.description = description;
+      res.json(todos);
+    } else {
+      res.status(404).send("Todo not found");
+    }
+  });
+  
   
   app.get("/a5/todos/:id/title/:title", (req, res) => {
     const { id, title } = req.params;
+    console.log(todos);
     const todo = todos.find((t) => t.id === parseInt(id));
+    console.log(todo);
     todo.title = title;
     res.json(todos);
   });

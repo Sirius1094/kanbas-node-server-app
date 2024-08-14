@@ -123,19 +123,21 @@ export default function Lab5(app) {
     res.sendStatus(200);
   });
 
-  app.get("/a5/todos/:id/completed/:completed", (req, res) => {
-    const { id, completed } = req.params;
+  app.post("/a5/todos/:id/completed", (req, res) => {
+    const { id } = req.params;
+    const { completed } = req.body;
     const todo = todos.find((t) => t.id === parseInt(id));
     if (todo) {
-      todo.completed = completed === 'true';
+      todo.completed = completed;
       res.json(todos);
     } else {
       res.status(404).send("Todo not found");
     }
   });
 
-  app.get("/a5/todos/:id/description/:description", (req, res) => {
-    const { id, description } = req.params;
+  app.post("/a5/todos/:id/description", (req, res) => {
+    const { id } = req.params;
+    const { description } = req.body;
     const todo = todos.find((t) => t.id === parseInt(id));
     if (todo) {
       todo.description = description;

@@ -1,3 +1,6 @@
+import courses from "../Kanbas/Database/courses.js";
+import PathParameters from "./PathParameters.js";
+
 const assignment = {
   id: 1,
   title: "NodeJS Assignment",
@@ -5,6 +8,13 @@ const assignment = {
   due: "2021-10-10",
   completed: false,
   score: 0,
+};
+
+const module = {
+  id: 1,
+  name: "NodeJS Module",
+  description: "Learn NodeJS with ExpressJS",
+  course: "NodeJS Course",
 };
 
 const todos = [
@@ -19,6 +29,8 @@ export default function Lab5(app) {
   app.get("/lab5/welcome", (req, res) => {
     res.send("Welcome to Lab 5");
   });
+
+  PathParameters(app);
 
   app.get("/a5/add/:a/:b", (req, res) => {
     const a = parseInt(req.params.a);
@@ -35,15 +47,29 @@ export default function Lab5(app) {
   app.get("/a5/assignment", (req, res) => {
     res.json(assignment);
   });
+
+  app.get("/a5/module", (req, res) => {
+    res.json(module);
+  });
   
   app.get("/a5/assignment/title", (req, res) => {
     res.json(assignment.title);
+  });
+
+  app.get("/a5/module/name", (req, res) => {
+    res.json(module.name);
   });
   
   app.get("/a5/assignment/title/:newTitle", (req, res) => {
     const { newTitle } = req.params;
     assignment.title = newTitle;
     res.json(assignment);
+  });
+
+  app.get("/a5/module/name/:newName", (req, res) => {
+    const { newName } = req.params;
+    module.name = newName;
+    res.json(module);
   });
   
   app.get("/a5/todos", (req, res) => {
@@ -78,6 +104,20 @@ export default function Lab5(app) {
     const newTodo = { ...req.body,  id: new Date().getTime() };
     todos.push(newTodo);
     res.json(newTodo);
+  });
+
+  app.post("/a5/todos/:id/completed/:completed", (req, res) => {
+    const { id, completed } = req.params;
+    const todo = todos.find((t) => t.id === parseInt(id));
+    todo.completed = completed === "true";
+    res.json(todo);
+  });
+
+  app.post("/a5/todos/:id/description/:description", (req, res) => {
+    const { id, description } = req.params;
+    const todo = todos.find((t) => t.id === parseInt(id));
+    todo.description = description;
+    res.json(todo);
   });
   
   app.get("/a5/todos/:id/delete", (req, res) => {

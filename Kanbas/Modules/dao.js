@@ -1,10 +1,17 @@
-import moduleModel from "./model.js";
+import model from "./model.js";
 
-export const createModule = (module) => moduleModel.create(module);
-export const findAllModules = () => moduleModel.find().populate('course');
-export const findModuleById = (id) => moduleModel.findById(id).populate('course');
-export const updateModule = (id, module) => moduleModel.updateOne({ _id: id }, { $set: module });
-export const deleteModule = (id) => moduleModel.deleteOne({ _id: id });
-export const findModulesByCourseId = async (courseId) => {
-    return moduleModel.find({ course: courseId });
-  };
+export const createModule = (module) => {
+  return model.create(module);
+};
+
+export const findModulesForCourse = (courseId) => {
+  return model.find({ course: courseId });
+};
+
+export const updateModule = (moduleId, updatedModule) => {
+  return model.updateOne({ _id: moduleId }, { $set: updatedModule });
+};
+
+export const deleteModule = (moduleId) => {
+  return model.deleteOne({ _id: moduleId });
+};

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
 import courseSchema from "./schema.js";
 
-const courseModel = mongoose.model("CourseModel", courseSchema);
-export default courseModel;
+const CourseModel = mongoose.model("CourseModel", courseSchema);
+export default CourseModel;
